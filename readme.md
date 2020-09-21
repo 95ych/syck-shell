@@ -1,4 +1,4 @@
-##SHELL in C
+## SHELL in C
 A shell with basic functionalities, supports multiple commands separated by';' in single line. \
 It can run system commands ,both in foreground and in background.\
 For compiling the shell run
@@ -9,7 +9,7 @@ for running it
 ```bash
 foo@bar>./shell
 ```
-####Has some builtin commands:
+#### Has some builtin commands:
 * echo
 * cd
 * pwd
@@ -17,22 +17,23 @@ foo@bar>./shell
 * ls , with -a , -l flags supported
 * exit
 
-####Limitations:
+#### Limitations:
 * Doesen't support quoting arguments or whitespace escape.
 * No pipings and redirections
 
 
 
-####What i,ve learnt from this assignment:
+#### What i,ve learnt from this assignment:
 Basic functionalities of shell and how processes execute \
 Expisure to new system calls and library functions \
 Modular coding
 
-#####Debugging pain gains:
+##### Debugging pain gains:
 End the input with NULL if using malloc to avoid random chars in buffer, or simply use calloc. \
 Not to run certain builtin commands as child processes, example: cd when run as child , it changes directory and exits, but parent ends up remaining in the same directory. \
 Not allocate strings pointers directly for a variable, we can end up messing up the orginal string, so make a duplicate of it by strdup() or strcpy()  
-
+#### Bugs to fix:
+* ls > testls
 ####Structure:
 * cykshell.h : the header file having main libraries, global constants , variables and functions.
 * shell.c : main() function;
