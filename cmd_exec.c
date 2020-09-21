@@ -3,13 +3,19 @@
 #include<unistd.h>
 #include<sys/wait.h> 
 
+int builtin_notchild_exec(char** args){
+	for(int i=0; i<bltin_notchild_count;i++)            //check for builtin functions
+		if(!strcmp(builtins_notchild[i].name, args[0]))
+			return builtins_notchild[i].func(args);
+	return 0;
+}
+
 int builtin_exec(char** args){
 	for(int i=0; i<bltin_no;i++)            //check for builtin functions
 		if(!strcmp(builtins[i].name, args[0]))
 			return builtins[i].func(args);
 	return 0;
 }
-
 int bg_check(char** args){
 	if(!strcmp(args[no_of_args-1],"&")){
 		no_of_args--;
@@ -31,17 +37,17 @@ int cmd_exec(char **args){
 		//fflush(stdout);
 		if(args[0]==NULL)
 			return 1;
-		if(builtin_exec(args)) // should not executed as child process 
-			return 1;
+		if(builtin_notchild_exec(args)) // should not executed as child process 
+			return 1;							 //edit assgn3: in case of ioredir, proceed as child
 		bg = bg_check(args);
 		pid = fork();
 		if (pid == 0) {                     // Child process
 		    if(bg) 
 		    	if(setpgrp()<0)              //moving the process into a new process grp to cutoff i/o interaction
 		    		perror("error allocating for bg process");
-
-		    
-		    if (execvp(args[0], args) == -1){
+		    ioredir(args); //look for io redirects
+		    if(builtin_exec(args));
+		    else if (execvp(args[0], args) == -1){
 		    	//perror("No command found");
 		    	fprintf(stderr,"Unknown command\n");
 		    }

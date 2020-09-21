@@ -1,7 +1,8 @@
 #include"cykshell.h"
 #include<string.h>
 
-struct func_map builtins[bltin_no] ={{"echo",echo_b}, {"pwd",pwd_b}, {"cd",cd_b}, {"ls",ls_exec}, {"pinfo",pinfo_exec}, {"exit",exit_b}};
+struct func_map builtins[bltin_no] ={{"echo",echo_b}, {"pwd",pwd_b}, {"ls",ls_exec}, {"pinfo",pinfo_exec}};
+struct func_map builtins_notchild[bltin_notchild_count] ={ {"cd",cd_b}, {"exit",exit_b}};
 
 int echo_b(char** args){
 	int i=1;

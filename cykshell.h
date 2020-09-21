@@ -8,7 +8,8 @@
 #define DELIM " \t\r\n\v" //delim for strtok func.
 #define buflen 1024       //giving buffer length of 1024 chars
 #define arglen 100        //assuming upto max 100 arguments
-#define bltin_no 6
+#define bltin_no 4
+#define bltin_notchild_count 2
 #define maxproc 1024      //assuming can hold upto 1024 processes
 
 char user[buflen];
@@ -27,6 +28,7 @@ int echo_b(char **args);   //builtin echo
 int cd_b(char **args);
 int exit_b();
 int cmd_exec(char **args);
+int ioredir(char** args);
 void cwd_func();
 void bg_end();
 struct func_map { char *name;
@@ -34,6 +36,8 @@ struct func_map { char *name;
  				};
 
 struct func_map builtins[bltin_no];
+//functions that not meant to be run as child processes and hence not with i/o redir too.
+struct func_map builtins_notchild[bltin_notchild_count];
 char *BUFFER;
 size_t blen;
 struct process {pid_t pid;

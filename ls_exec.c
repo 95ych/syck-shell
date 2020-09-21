@@ -81,6 +81,7 @@ int ls_exec(char **args){
 					    char date_time[16];
     					strftime(date_time, 16, "%b %2d %2I:%2M", gmtime(&(statbuf.st_mtime)));
     					printf("%s ",date_time);
+    					fflush(stdout);
 				    }
 				}
 				printf("%s\n",namelist[i]->d_name);
