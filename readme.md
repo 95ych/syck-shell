@@ -34,7 +34,7 @@ Not to run certain builtin commands as child processes, example: cd when run as 
 Not allocate strings pointers directly for a variable, we can end up messing up the orginal string, so make a duplicate of it by strdup() or strcpy()  
 #### Bugs to fix:
 * ls > testls
-####Structure:
+#### Structure:
 * cykshell.h : the header file having main libraries, global constants , variables and functions.
 * shell.c : main() function;
 * interface.c : functions related to interface
