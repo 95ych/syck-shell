@@ -19,7 +19,8 @@ char cwd[buflen];
 char cwd_s[buflen];        //pwd_s for cwd shortened
 int no_of_args;
 int no_of_cmds;
-char** inputt();
+char* inputt();
+char** stringseperator();
 char** cmd_in();
 int ls_exec(char **args); 
 int pinfo_exec(char **args);  
@@ -34,7 +35,7 @@ void bg_end();
 struct func_map { char *name;
  				  int (*func)(char **args);
  				};
-
+int piping(char* cmd);
 struct func_map builtins[bltin_no];
 //functions that not meant to be run as child processes and hence not with i/o redir too.
 struct func_map builtins_notchild[bltin_notchild_count];
@@ -47,6 +48,7 @@ struct process {pid_t pid;
 
 struct process *bg_proc;
 int bg_proc_size;
+int sepcount;
 //colours for shell
 void red();
 void grn();

@@ -22,32 +22,37 @@ char **args = calloc(arglen , sizeof(char*));     //an array of pointers to stor
   return args;
 }
 
-char** inputt(){                                    //splits input to commands
+char* inputt(){
+    if (getline(&BUFFER, &blen, stdin) == -1){
+    if (feof(stdin))                  //if eof is recieved like ctrl-D, exit shell
+          exit(EXIT_SUCCESS); 
+      else {
+          perror("input");
+          exit(EXIT_FAILURE);
+      }
+    }
+    return BUFFER;
+}
+
+
+char** stringseperator(char* BUF, char* delim, int* cnt){                                    //splits input to commands
 	char **cmds = calloc(arglen, sizeof(char*));			//an array of pointers to store cmdument's pointers
 	char *cmd;											//pointer to store pointer returned by strtok 	
-	if (getline(&BUFFER, &blen, stdin) == -1){
-   	if (feof(stdin)) 									//if eof is recieved like ctrl-D, exit shell
-      		exit(EXIT_SUCCESS); 
-     	else {
-      		perror("input");
-      		exit(EXIT_FAILURE);
-    	}
-  	}
-  	cmd=strtok(BUFFER,DELIMC);
-  	int i=0;
-  	int j=1;
-  	while(cmd!=NULL){
-  		cmds[i]=cmd;
-  		cmd=strtok(NULL,DELIMC); 							//to return the next pointer of prev buffer's cmdument
-  		i++;
-  		if(i>j*100){
-  			j++;
-  		}
-  		    	          								
-	     
+
+	cmd=strtok(BUFFER, delim);
+	int i=0;
+	int j=1;
+	while(cmd!=NULL){
+		cmds[i]=cmd;
+		cmd=strtok(NULL, delim); 							//to return the next pointer of prev buffer's cmdument
+		i++;
+		if(i>j*100){
+			j++;
+      //TODO: realloc for safety;
+		}
+  		    	          				
   }
-	no_of_cmds=i;
-	//printf("cmds%d ",no_of_cmds);
+	*cnt=i;
   return cmds;
 }
 
