@@ -45,7 +45,8 @@ int cmd_exec(char **args){
 		    if(bg) 
 		    	if(setpgrp()<0)              //moving the process into a new process grp to cutoff i/o interaction
 		    		perror("error allocating for bg process");
-		    ioredir(args); //look for io redirects
+		    if(ioredir(args)==-1) 			//look for io redirects
+		    	exit(0);					//in case of error
 		    if(builtin_exec(args));
 		    else if (execvp(args[0], args) == -1){
 		    	//perror("No command found");
