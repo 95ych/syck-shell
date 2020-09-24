@@ -67,15 +67,18 @@ int cmd_exec(char **args){
 				new->pid=pid;
 				strcpy(new->name,args[0]);
 				new->next=NULL;
-				if(!bg_proc)
+				if(!bg_proc){
 					bg_proc=new;
+					bg_proc_size=1;
+				}
 				else{
 					struct process *i=bg_proc;
 					while(i->next)
 						i=i->next;
 					i->next=new;
+					bg_proc_size++;
 				}
-				bg_proc_size++;
+				
 				//sleep(1);		 //to print errors from child bg process before prompt
 	  		}
 
@@ -89,9 +92,10 @@ void delbg(pid_t pid, char* proc,int b){          //delete bg process from list 
     if(i->pid == pid){			
         strcpy(proc,i->name);
         fflush(stdout);
-        i=i->next;
-        if(b)
+        if(b){
+        	bg_proc=i->next;
         	free(i);
+        }
         return;
     }
     while(i->next){              
