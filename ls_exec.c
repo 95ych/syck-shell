@@ -88,6 +88,5 @@ int ls_exec(char **args){
 			}
 		}
 	}
-	fflush(stdout);
 	return 1;
 }

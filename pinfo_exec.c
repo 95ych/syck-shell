@@ -12,7 +12,7 @@ int pinfo_exec(char ** args){
 	FILE *info =fopen(path, "r");
 	if(!info){
 		perror("proc_status file error");
-		return 0;
+		return 1;
 	}
 	int i=0;
 	while(getline(&BUFFER,&blen,info)!=-1){
