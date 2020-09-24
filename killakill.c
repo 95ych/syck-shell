@@ -23,9 +23,22 @@ int kjob_b(char** args){
 			printf("Invalid signal\n");
 			return 1;
 		}
+		
+		if(bg_proc==NULL){
+			printf("No job found\n");
+			return 1;
+		}
 		int pid=-2;
-		struct process *i =calloc(1,sizeof(struct process));
+		struct process *i;
+		char* proc=calloc(buflen,sizeof(char));
 		i=bg_proc;
+		if (jobid==1){
+			if(kill(bg_proc->pid,sig)==-1)
+				perror("kill error:");
+			delbg(bg_proc->pid,proc,1);
+			return 1;
+		}
+
 		for(int j=1;j<jobid;j++){
 			i=i->next;
 			
@@ -37,11 +50,28 @@ int kjob_b(char** args){
 		pid=i->pid;
 		if(kill(pid, sig)==-1)
 			perror("kill error:");
-		char* proc=calloc(buflen,sizeof(char));
 		delbg(pid,proc,1);
 		return 1;
 	}
-
-
 }
 
+int overkill_b(char** args){
+	//printf("no_of_args%d",no_of_args);
+	if(no_of_args>1){
+		printf("Too many arguments");
+		return 1;
+	}
+	struct process *i, *j;
+	i=bg_proc;
+	while(i){
+		int pid=i->pid;
+		if(kill(pid, 9)==-1)  //dont do kill(-1,9), lol it kills everything xD
+				perror("kill error:");
+		j=i->next;
+		free(i);
+		i=j;
+		//printf("killing");
+	}
+	bg_proc=NULL;
+return 1;	
+}

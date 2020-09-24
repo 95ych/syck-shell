@@ -86,6 +86,8 @@ int cmd_exec(char **args){
   	return 1; 
 }
 void delbg(pid_t pid, char* proc,int b){          //delete bg process from list if b=1, and get process name for pid
+	if(!bg_proc)
+		return;
 	bg_proc_size--; 
     struct process *i = bg_proc;
 
@@ -93,23 +95,32 @@ void delbg(pid_t pid, char* proc,int b){          //delete bg process from list 
         strcpy(proc,i->name);
         fflush(stdout);
         if(b){
-        	bg_proc=i->next;
+        	if(i->next) bg_proc=i->next;
+        	else bg_proc=NULL;
         	free(i);
+        	// if(bg_proc){
+        	// 	printf("bg_proc%d",bg_proc->pid);
+        	// }
+        	// else printf("NULL");
         }
         return;
     }
+
     while(i->next){              
         if(i->next->pid == pid){
         	struct process *del=i->next;
             strcpy(proc,del->name);
             if(b){
-            	i->next = del->next;
+            	if(del->next)
+            		i->next = del->next;
+            	else i->next = NULL;
             	free(del);
             }
             return ;
         }
         i=i->next;
     }
+    return;
 
 }
 
@@ -142,6 +153,6 @@ void bg_end(){			//to display end of bg process
          }
  
 		
-	}while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}while (1);
 }
 

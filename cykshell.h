@@ -8,8 +8,8 @@
 #define DELIM " \t\r\n\v" //delim for strtok func.
 #define buflen 1024       //giving buffer length of 1024 chars
 #define arglen 100        //assuming upto max 100 arguments
-#define bltin_no 6
-#define bltin_notchild_count 4
+#define bltin_no 5
+#define bltin_notchild_count 6
 #define maxproc 1024      //assuming can hold upto 1024 processes
 
 char user[buflen];
@@ -33,6 +33,7 @@ int cd_b(char **args);
 int exit_b();
 int setenv_b(char** args);
 int unsetenv_b(char** args);
+int overkill_b(char ** args);
 int cmd_exec(char **args);
 int ioredir(char** args);
 void cwd_func();
