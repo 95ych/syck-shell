@@ -9,7 +9,7 @@
 #define buflen 1024       //giving buffer length of 1024 chars
 #define arglen 100        //assuming upto max 100 arguments
 #define bltin_no 4
-#define bltin_notchild_count 3
+#define bltin_notchild_count 4
 #define maxproc 1024      //assuming can hold upto 1024 processes
 
 char user[buflen];
@@ -29,6 +29,7 @@ int echo_b(char **args);   //builtin echo
 int cd_b(char **args);
 int exit_b();
 int setenv_b(char** args);
+int unsetenv_b(char** args);
 int cmd_exec(char **args);
 int ioredir(char** args);
 void cwd_func();

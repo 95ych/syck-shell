@@ -2,7 +2,7 @@
 #include<string.h>
 
 struct func_map builtins[bltin_no] ={{"echo",echo_b}, {"pwd",pwd_b}, {"ls",ls_exec}, {"pinfo",pinfo_exec}};
-struct func_map builtins_notchild[bltin_notchild_count] ={ {"cd",cd_b}, {"exit",exit_b}, {"setenv", setenv_b}};
+struct func_map builtins_notchild[bltin_notchild_count] ={ {"cd",cd_b}, {"exit",exit_b}, {"setenv", setenv_b}, {"unsetenv",unsetenv_b}};
 
 int setenv_b(char** args){
 	//printf("nof of args %d\n",no_of_args);
@@ -18,8 +18,23 @@ int setenv_b(char** args){
 	
 	else if(setenv(args[1], args[2], 1) == -1)
 		perror("setenv error ");
+
+	return 1;
 }
 
+int unsetenv_b(char** args){
+	//printf("nof of args %d\n",no_of_args);
+	if (no_of_args==1)
+		printf("Insufficient arguments\n");
+	
+	else if(no_of_args>2)
+		printf("Too many arguments\n");
+	
+	else
+		if(unsetenv(args[1]) == -1)
+			perror("cannot unset var");
+		return 1;
+}
 
 int echo_b(char** args){
 	int i=1;
