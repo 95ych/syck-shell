@@ -1,5 +1,9 @@
 #include"cykshell.h"
 #include <string.h>
+#include <signal.h>
+
+int z=0;
+int proc_run=0;
 int main(){
   char* a=calloc(buflen,sizeof(char));
   char** asp;
@@ -7,8 +11,11 @@ int main(){
   char cp[1234];
   char b[10]="ls";
   init();
-  while(1){ 
-    
+  signal(SIGINT, sighandlerc);
+  signal(SIGTSTP, sighandlerz);
+  while(1){
+    z=0;
+    proc_run=0;
     prompt();
     fflush(stdout);
     rst();

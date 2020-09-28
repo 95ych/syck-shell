@@ -40,8 +40,10 @@ int cmd_exec(char **args){
 		if(builtin_notchild_exec(args)) // should not executed as child process 
 			return 1;							 //edit assgn3: in case of ioredir, proceed as child
 		bg = bg_check(args);
+		proc_run=1;
 		pid = fork();
 		if (pid == 0) {                     // Child process
+		    signal(SIGTSTP, SIG_DFL);
 		    if(bg) 
 		    	if(setpgrp()<0)              //moving the process into a new process grp to cutoff i/o interaction
 		    		perror("error allocating for bg process");
@@ -60,7 +62,25 @@ int cmd_exec(char **args){
 	  	} 
 	  	else{                            //Parent process
 		  	if(!bg){
-		  		wait(NULL);       // if not a background process wait till child completes
+		  		waitpid(pid, &status, WUNTRACED);       // if not a background process wait till child completes
+		  		 if(WIFSTOPPED(status)){
+	                printf("\n %s [%d] sent to background  \n",args[0], pid);
+		  			struct process *new =calloc(1,sizeof(struct process));
+					new->pid=pid;
+					strcpy(new->name,args[0]);
+					new->next=NULL;
+					if(!bg_proc){
+						bg_proc=new;
+						bg_proc_size=1;
+					}
+					else{
+						struct process *i=bg_proc;
+						while(i->next)
+							i=i->next;
+						i->next=new;
+						bg_proc_size++;
+					}
+		  		}
 	  		}
 	  		else{                    //else append to linked list of process
 				struct process *new =calloc(1,sizeof(struct process));

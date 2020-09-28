@@ -19,6 +19,8 @@ char cwd[buflen];
 char cwd_s[buflen];        //pwd_s for cwd shortened
 int no_of_args;
 int no_of_cmds;
+int proc_run;
+int z;
 char* inputt();
 char** stringseperator();
 char** cmd_in();
@@ -26,6 +28,8 @@ void delbg(pid_t pid, char* proc,int b);
 int ls_exec(char **args); 
 int pinfo_exec(char **args); 
 int jobs_b(char **args);
+int bg_b(char **args);
+int fg_b(char **args);
 int kjob_b(char** args);  
 int pwd_b(char **args);    //builtin pwd
 int echo_b(char **args);   //builtin echo 
@@ -55,6 +59,8 @@ struct process {pid_t pid;
 struct process *bg_proc;
 int bg_proc_size;
 int sepcount;
+void sighandlerc(int signum);
+void sighandlerz(int signum);
 //colours for shell
 void red();
 void grn();
