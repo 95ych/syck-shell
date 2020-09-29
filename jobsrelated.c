@@ -66,13 +66,15 @@ int bg_b(char** args){
         printf("bg: Too many arguments\n");
         return 1;
     }
-
     int jobid = atoi(args[1]);
     int pid=-2;
 	struct process *i;
 	char* proc=calloc(buflen,sizeof(char));
 	i=bg_proc;
-    
+    if(bg_proc==NULL){
+		printf("No job found\n");
+		return 1;
+	}
     if (jobid==1){
 		if(kill(bg_proc->pid,SIGCONT)==-1)
 			perror("bg error:");
@@ -90,5 +92,10 @@ int bg_b(char** args){
 	pid=i->pid;
 	if(kill(pid, SIGCONT)==-1)
 		perror("bg error:");
+	return 1;
+}
 
+int fg_b(char** args){
+	printf("asdf\n");
+	return 1;
 }

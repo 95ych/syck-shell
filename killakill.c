@@ -35,7 +35,7 @@ int kjob_b(char** args){
 		if (jobid==1){
 			if(kill(bg_proc->pid,sig)==-1)
 				perror("kill error:");
-			delbg(bg_proc->pid,proc,1);
+			//delbg(bg_proc->pid,proc,1);
 			return 1;
 		}
 
@@ -50,7 +50,7 @@ int kjob_b(char** args){
 		pid=i->pid;
 		if(kill(pid, sig)==-1)
 			perror("kill error:");
-		delbg(pid,proc,1);
+		//delbg(pid,proc,1);
 		return 1;
 	}
 }
@@ -68,10 +68,9 @@ int overkill_b(char** args){
 		if(kill(pid, 9)==-1)  //dont do kill(-1,9), lol it kills everything xD
 				perror("kill error:");
 		j=i->next;
-		free(i);
 		i=j;
 		//printf("killing");
 	}
-	bg_proc=NULL;
+	//bg_proc=NULL;
 return 1;	
 }

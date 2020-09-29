@@ -9,7 +9,7 @@
 #define buflen 1024       //giving buffer length of 1024 chars
 #define arglen 100        //assuming upto max 100 arguments
 #define bltin_no 5
-#define bltin_notchild_count 6
+#define bltin_notchild_count 8
 #define maxproc 1024      //assuming can hold upto 1024 processes
 
 char user[buflen];
