@@ -14,7 +14,7 @@ int ls_exec(char **args){
 	int dir_i=0;	          	     //for storing arg no. for dir
 	char *dir = NULL;                //for storing directory name
 	struct dirent **namelist; 
-	for(int i=1; i<no_of_args ;i++){
+	for(int i=1; args[i]!=NULL; i++){
 		if(strcmp(args[i],"-l")==0)
 			l=1;
 		
@@ -85,6 +85,7 @@ int ls_exec(char **args){
 				    }
 				}
 				printf("%s\n",namelist[i]->d_name);
+				//printf("lolol");
 			}
 		}
 	}
