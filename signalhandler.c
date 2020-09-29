@@ -9,6 +9,7 @@ void sighandlerc(int signum) {
 	   	rst();
 	   	fflush(stdout);
 	}
+	proc_run=0;
 }
 void sighandlerz(int signum) {
    if(!proc_run)	
@@ -18,4 +19,5 @@ void sighandlerz(int signum) {
 	   	rst();
 	   	fflush(stdout);
 	}
+	proc_run =0;
 }

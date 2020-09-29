@@ -32,12 +32,6 @@ int kjob_b(char** args){
 		struct process *i;
 		char* proc=calloc(buflen,sizeof(char));
 		i=bg_proc;
-		if (jobid==1){
-			if(kill(bg_proc->pid,sig)==-1)
-				perror("kill error:");
-			//delbg(bg_proc->pid,proc,1);
-			return 1;
-		}
 
 		for(int j=1;j<jobid;j++){
 			i=i->next;

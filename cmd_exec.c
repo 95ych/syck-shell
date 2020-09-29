@@ -44,7 +44,7 @@ int cmd_exec(char **args){
 		pid = fork();
 		if (pid == 0) {                     // Child process
 		    signal(SIGTSTP, SIG_DFL);
-		    if(bg) 
+		    //if(bg) 
 		    	if(setpgrp()<0)              //moving the process into a new process grp to cutoff i/o interaction
 		    		perror("error allocating for bg process");
 		    if(ioredir(args)==-1) 			//look for io redirects
@@ -62,9 +62,20 @@ int cmd_exec(char **args){
 	  	} 
 	  	else{                            //Parent process
 		  	if(!bg){
-		  		waitpid(pid, &status, WUNTRACED);       // if not a background process wait till child completes
-		  		 if(WIFSTOPPED(status)){
-	                printf("\n %s [%d] sent to background  \n",args[0], pid);
+		  		
+			    signal(SIGTTIN, SIG_IGN);
+			    signal(SIGTTOU, SIG_IGN);				
+
+			    tcsetpgrp(0, pid);						// interface child process with terminal
+				waitpid(pid, &status, WUNTRACED);      // if not a background process wait till child completes
+				tcsetpgrp(0, getpgid(0));
+   
+				signal(SIGTTIN, SIG_DFL);
+			    signal(SIGTTOU, SIG_DFL);		  		 
+		  		
+		  		if(WIFSTOPPED(status)){
+					//printf("%d gid=%d %d\n",pid,getpgid(pid), getpgid(0));	                
+	                printf("\n %s [%d] suspended and sent to background  \n",args[0], pid);
 		  			struct process *new =calloc(1,sizeof(struct process));
 					new->pid=pid;
 					strcpy(new->name,args[0]);
