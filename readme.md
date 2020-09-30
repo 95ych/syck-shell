@@ -1,6 +1,6 @@
 ## SHELL in C
-A shell with basic functionalities with io redirections and piping support, supports multiple commands separated by';' in single line. \
-It can run system commands ,both in foreground and in background.\
+A shell with basic functionalities with io redirections and piping support. \
+It can run system commands ,both in foreground and in background. \
 For compiling the shell run
 ```bash
 foo@bar>./make
@@ -30,11 +30,12 @@ foo@bar>./shell
 #### What i,ve learnt from this assignment:
 Basic functionalities of shell and how processes execute \
 Expisure to new system calls and library functions \
-Modular coding
+Modular coding\
+Understanding how io, redirections and piping works
 
 ##### Debugging pain gains:
-* End the input with NULL if using malloc to avoid random chars in buffer, or simply use calloc. \
-* Not to run certain builtin commands as child processes, example: cd when run as child , it changes directory and exits, but parent ends up remaining in the same directory. \
+* End the input with NULL if using malloc to avoid random chars in buffer, or simply use calloc.
+* Not to run certain builtin commands as child processes, example: cd when run as child , it changes directory and exits, but parent ends up remaining in the same directory.
 * Not to allocate strings pointers directly for a variable, we can end up messing up the orginal string, so make a duplicate of it by strdup() or strcpy()  
 * While implementing ctrl-z when the process stopped, i tried send the child process to new group by setpgid(pid,0), but it gave permission error;\
 Fix: Irrespective of whether bg of fg process, i sent the child to new group, if it is an fg ,in the parent interface it with terminal's io by tcsetpgrp(0, pid);
