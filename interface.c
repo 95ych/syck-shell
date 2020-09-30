@@ -59,7 +59,7 @@ char** stringseperator(char* BUF, char* delim, int* cnt){                       
 
 void cwd_func(){
 	getcwd(cwd, sizeof(cwd));
-	if(strlen(cwd) >= strlen(home) && strncmp(cwd, home, strlen(home)) == 0)
+  if(strlen(cwd) >= strlen(home) && strncmp(cwd, home, strlen(home)) == 0)
         sprintf(cwd_s, "~%s", cwd + strlen(home));
     else
     	sprintf(cwd_s, "%s", cwd);
@@ -72,6 +72,7 @@ void init(){
    	gethostname(host, buflen);
    	getcwd(home, buflen);
    	cwd_func();
+    strcpy(cdminus,cwd);
 	printf("                           Welcome to \n");
 	printf("****************************cykshell******************************\n");
 	printf("                      Have a nice day %s :) \n\n",user);	

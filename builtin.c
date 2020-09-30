@@ -57,19 +57,27 @@ int cd_b(char** args){
 	char *cdr =calloc(buflen,sizeof(char)); 
 	if(args[1]==NULL)
 	{
+		strcpy(cdminus,cwd);
 		cdr=strdup(home);    //if nothing mentioned taking home by default
 	}
 
 	else if(args[1][0]=='~'){
+		strcpy(cdminus,cwd);
 		sprintf(cdr,"%s%s",home,args[1]+1);
 	}
-	else
+	else if(!strcmp(args[1],"-")){
+		cdr=strdup(cdminus);
+	}
+		
+	else{
+		strcpy(cdminus,cwd);
 		strcpy(cdr,args[1]); 
+	}
 	
 	if(chdir(cdr)<0)          
 		perror("cd error ");
 	cwd_func();					//setting up cwd_s
-	//printf("home--%s cdr--%s",home,cdr);
+	//printf("home--%s cdr--%s",cwd,cdr);
 	return 1;
 }
 

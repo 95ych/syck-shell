@@ -17,6 +17,7 @@ char host[buflen];
 char home[buflen];
 char cwd[buflen];
 char cwd_s[buflen];        //pwd_s for cwd shortened
+char cdminus[buflen];
 int no_of_args;
 int no_of_cmds;
 int proc_run;
