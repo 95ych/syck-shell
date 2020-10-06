@@ -74,7 +74,7 @@ void init(){
    	cwd_func();
     strcpy(cdminus,cwd);
 	printf("                           Welcome to \n");
-	printf("****************************cykshell******************************\n");
+	printf("****************************syck-shell******************************\n");
 	printf("                      Have a nice day %s :) \n\n",user);	
 }
 
